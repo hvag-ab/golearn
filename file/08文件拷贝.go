@@ -1,4 +1,4 @@
-package main
+package file
 
 import (
 	"os"
@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func main() {
+func File1() {
 
 	fp1, err1 := os.Open("D:\\0726浏览量\\01_Go语言（面向对象下）\\03视频\\07类型断言.avi")
 	fp2, err2 := os.Create("D:/test.avi")

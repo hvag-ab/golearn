@@ -3,6 +3,8 @@ package goroutine
 import (
 	"fmt"
 	"sync"
+	"math/rand"
+    "time"
 )
 
 /*
@@ -98,3 +100,75 @@ out := make(chan int, 100)
 
 
 */
+
+/*
+使用goroutine和channel实现一个计算int64随机数各位数和的程序。
+
+开启一个goroutine循环生成int64类型的随机数，发送到jobChan
+开启24个goroutine从jobChan中取出随机数计算各位数的和，将结果发送到resultChan
+主goroutine从resultChan取出结果并打印到终端输出
+
+ 
+*/
+ 
+type job struct {
+    value int64
+}
+ 
+type result struct {
+    job *job
+    sum int64
+}
+ 
+var jobsChannel = make(chan *job, 100)
+var resultChanel = make(chan *result, 100)
+var wgp sync.WaitGroup
+ 
+func producer3(jobs chan<- *job) {
+    defer wgp.Done()
+    for {
+        v := rand.Int63()
+        newJob := &job{
+            value: v,
+        }
+        jobs <- newJob
+        //休眠500毫秒
+        time.Sleep(time.Millisecond * 500)
+ 
+    }
+ 
+}
+ 
+func consumer3(jobs <-chan *job, results chan<- *result) {
+    defer wgp.Done()
+    for {
+        job := <-jobs
+        sum := int64(0)
+        jobValue := job.value
+        for jobValue > 0 {
+            sum += jobValue % int64(10)
+            jobValue = jobValue / int64(10)
+        }
+        newResult := &result{
+            job: job,
+            sum: sum,
+        }
+        results <- newResult
+ 
+    }
+}
+ 
+func main() {
+    wgp.Add(1)
+    go producer3(jobsChannel)
+    wgp.Add(24)
+    for i := 0; i < 24; i++ {
+        go consumer3(jobsChannel, resultChanel)
+    }
+ 
+    for v := range resultChanel {
+        fmt.Printf("%d---->%d\n",v.job.value, v.sum)
+    }
+    wg.Wait()
+ 
+}

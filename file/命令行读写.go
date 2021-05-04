@@ -1,5 +1,5 @@
 // os_args.go
-package main
+package file
 
 import (
     "fmt"
@@ -7,7 +7,7 @@ import (
     "strings"
 )
 
-func main() {
+func File4() {
     who := "Alice "
     if len(os.Args) > 1 {
         who += strings.Join(os.Args[1:], " ")

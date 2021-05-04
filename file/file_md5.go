@@ -2,7 +2,7 @@
  * datetime: 2017-06-08
  * 文件操作：三种方式获取文件md5值
  */
-package main
+package file
 
 import (
 	"bufio"
@@ -13,7 +13,7 @@ import (
 	"os"
 )
 
-func main() {
+func File5() {
 
 	//创建一个文件
 	filename := "testfile.md5"

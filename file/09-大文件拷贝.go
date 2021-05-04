@@ -1,4 +1,4 @@
-package main
+package file
 
 import (
 	"os"
@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func main()  {
+func File2()  {
 	// 创建 待读取的文件，和 待写入的文件
 	f_r, err := os.Open("C:/itcast/01-结构体的定义和初始化.avi")
 	if err != nil {
@@ -43,5 +43,5 @@ func main()  {
 		}
 	}
 
-	os.OpenFile()
+	// os.OpenFile()
 }

@@ -6,7 +6,7 @@ import "container/heap"
 import "container/ring"
 
 func List(){
-  l := list.New()
+    l := list.New()
 	l.PushBack(1) //尾插
 	l.PushBack(2)
 	print(l)

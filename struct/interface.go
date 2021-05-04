@@ -1,4 +1,4 @@
-package structgo
+package struct_
 
 /**
  *  datetime: 2017-05-24

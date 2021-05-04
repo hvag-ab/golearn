@@ -1,12 +1,12 @@
 package raise
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 )
 
 // error
-func calc(a int, b int) (v int, err error) {
+func Calc(a int, b int) (v int, err error) {
 
 	//捕获错误信息
 	if b == 0 {
@@ -19,9 +19,9 @@ func calc(a int, b int) (v int, err error) {
 
 }
 
-// panic 
+// panic
 
-func calc2(a int, b int) (v int) {
+func Calc2(a int, b int) (v int) {
 
 	//捕获错误信息
 	if b == 0 {
@@ -32,10 +32,8 @@ func calc2(a int, b int) (v int) {
 
 }
 
-// recover 
-func calc3(i int) {
-	var arr [10]int
-
+// recover
+func Calc3(a int, b int) int {
 	//优先使用错误拦截 在错误出现之前进行拦截 在错误出现后进行错误捕获
 	//错误拦截必须配合defer使用  通过匿名函数使用
 	defer func() {
@@ -46,9 +44,10 @@ func calc3(i int) {
 		}
 	}()
 
-	arr[i] = 123 //err panic
-	fmt.Println(arr)
+	//捕获错误信息
+	// if b == 0 {
+	// 	panic(errors.New("除数不能为0"))
+	// }
+	v := a / b
+	return v
 }
-
-
-

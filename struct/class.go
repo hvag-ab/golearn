@@ -1,4 +1,4 @@
-package structgo
+package struct_
 /**
 Go语言通过首字母的大小写来控制访问权限。无论是方法，变量，常量或是自定义的变量类型，如果首字母大写，则可以被外部包访问，反之则不可以。
  */
@@ -36,7 +36,7 @@ func (a *Animal) sleep(){
 }
 
 // 动物的构造函数
-func newAnimal(name string) *Animal {
+func NewAnimal(name string) *Animal {
     return &Animal{
         Name: name,
     }
@@ -48,9 +48,9 @@ type Cat struct {
 }
 
 // 实现猫的构造函数 初始化animal结构体
-func newCat(name string) *Cat {
+func NewCat(name string) *Cat {
     return &Cat{
-        Animal: newAnimal(name),
+        Animal: NewAnimal(name),
     }
 }
 
@@ -62,13 +62,10 @@ func (cat *Cat) Eat() {
 }
 
 // 检查接口
-func check(animal IAnimal) {
+func Check(animal IAnimal) {
     animal.Eat()
 }
 
-
-// cat := newCat("cat")
-// cat.Eat() // cat is eating
 
 
 
@@ -89,13 +86,20 @@ type student2 struct {
 	phone string //human中也有phone字段
 }
 
+//给基类增加walk方法
+func (a human) walk() {
+    fmt.Printf("%s are walking.. \n", a.name)
+}
+
 func stu() {
 	// 重载字段，就近原则
 	hvag := student{human{name: "hvag", age: 20, phone: "110"}, "119"}
 	fmt.Println("hvag phone uumber is ", hvag.phone) //119
+	hvag.walk()
 
-	hv := student2{human{name: "hvag", age: 30, phone: "130"}, "129"}
+	hv := student2{human{name: "hvag2", age: 30, phone: "130"}, "129"}
 	fmt.Println("hvag phone uumber is ", hv.phone,hv.hu)
+	hv.hu.walk()
 }
 
 

@@ -1,4 +1,4 @@
-package structgo
+package struct_
 /**
 Go语言通过首字母的大小写来控制访问权限。无论是方法，变量，常量或是自定义的变量类型，如果首字母大写，则可以被外部包访问，反之则不可以。
  */
@@ -14,13 +14,13 @@ type User struct {
 
 func main0() {
 	//值类型
-	u1:=models.User{}
-	var u2  models.User
+	u1 := User{}
+	var u2 User
 
 	//指针类型
-	u3:=new(models.User)
-	u4:=&models.User{}
-	var u5  *models.User
+	u3:=new(User)
+	u4:=&User{}
+	var u5  *User
 
 	fmt.Println(u1)
 	fmt.Println(u2)
@@ -29,12 +29,12 @@ func main0() {
 	fmt.Println(u4)
 	fmt.Println(u5)
 }
-/*
-输出：
+// /*
+// 输出：
 
-{0  }
- {0  }
- &{0  }
- &{0  }
- <nil>
-*/
+// {0  }
+//  {0  }
+//  &{0  }
+//  &{0  }
+//  <nil>
+// */

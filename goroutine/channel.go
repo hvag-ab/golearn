@@ -56,7 +56,19 @@ x,ok := <- ch
 // 关闭channel
 close(ch)
 
+
+channel的capacity是固定了，length是动态的。
+
+只要在初始化阶段固定了channel的长度（N）。
+
+生产者只能投放N个数据，不能让channel超载数据。
+
+同理channel中的（N）个数据读取（消费）完了，消费者也无法再消费。
+
+
 */
+
+
 // 如向channel发送数据的时候，该goroutine会一直阻塞直到另一个goroutine接受该channel的数据，
 // 反之亦然，goroutine接受channel的数据的时候也会一直阻塞直到另一个goroutine向该channel发送数据
 // go程开启之前使用通道
@@ -71,7 +83,7 @@ func DeadLock1() {
 func DeadLock2() {
     ch := make(chan string)
     // 在此处阻塞，然后程序会弹出死锁的报错 因为没有接收这个通道 主程序是逐步运行 所以运行到这里找不到接收的 虽然下面有接收的
-    // ch := make(chan string,1) 可以消除阻塞
+    // ch := make(chan string,1) 可以消除阻塞 
     ch <- "hello"
     <- ch
     fmt.Println("channel has send data")
@@ -441,3 +453,42 @@ func main99() {
 
 
 
+var wg sync.WaitGroup
+var once sync.Once
+ 
+func producer2(chanel1 chan int) {
+    defer wg.Done()
+    for i := 0; i < 100; i++ {
+        chanel1 <- i
+    }
+    close(chanel1)
+ 
+}
+ 
+func consumer(ch1 chan int, ch2 chan int) {
+    defer wg.Done()
+    for v := range ch1 {
+        ch2 <- v * v
+    }
+    //确保某个close操作被gorutines抢到后只被 close 1次
+    once.Do(func() { close(ch2) })
+ 
+}
+ 
+func main67() {
+    wg.Add(6)
+    ch1 := make(chan int, 100)
+    ch2 := make(chan int, 100)
+    go producer2(ch1)
+    go consumer(ch1, ch2)
+    go consumer(ch1, ch2)
+    go consumer(ch1, ch2)
+    go consumer(ch1, ch2)
+    go consumer(ch1, ch2)
+    wg.Wait()
+    for v := range ch2 {
+        fmt.Println(v)
+ 
+    }
+ 
+}

@@ -5,6 +5,7 @@ import (
     "context"
     "fmt"
     "time"
+    "sync"
 )
 
 
@@ -107,16 +108,48 @@ func main_x1() {
  
 }
 
+// WithValue（传递值）
 
-// 通过key value传递数据给含有ctx的子进程
-func NewContext(ctx context.Context, userIP string) context.Context {
-    return context.WithValue(ctx, "key", userIP)
+
+ 
+func worker(ctx context.Context, wg *sync.WaitGroup) {
+    defer wg.Done()
+ 
+    key := "TRACE_CODE"
+    // 在子goroutine中获取trace code,(string)是类型断言！
+    traceCode, ok := ctx.Value(key).(string)
+    if !ok {
+        fmt.Println("invalid trace code")
+    }
+ 
+    for {
+        fmt.Printf("worker, trace code:%s\n", traceCode)
+        // 假设正常连接数据库耗时1秒
+        time.Sleep(time.Second * 1)
+        // 10秒后自动调用
+        select {
+        case <-ctx.Done():
+            fmt.Println("worker done!")
+            return
+        default:
+        }
+    }
+ 
 }
  
-// FromContext extracts the user IP address from ctx, if present.
-func FromContext(ctx context.Context) (string, bool) {
-    // ctx.Value returns nil if ctx has no value for the key;
-    // the net.IP type assertion returns ok=false for nil.
-    userIP, ok := ctx.Value("key").(string)
-    return userIP, ok
+func main_x3() {
+    // 设置1个10秒的超时
+    var wg sync.WaitGroup
+    ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+    //在系统的入口中设置trace code传递给后续启动的goroutine实现微服务日志数据聚合
+    ctx = context.WithValue(ctx, "TRACE_CODE", "666")
+    wg.Add(1)
+    go worker(ctx, &wg)
+    //主线程等待10秒后
+    time.Sleep(time.Second * 10)
+    //通知子goroutine结束
+    cancel()
+    wg.Wait()
+    fmt.Println("over")
 }
+

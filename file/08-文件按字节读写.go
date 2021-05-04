@@ -1,11 +1,11 @@
-package main
+package file
 
 import (
 	"fmt"
 	"os"
 )
 
-func main(){
+func File0(){
 	f, err := os.OpenFile("test.txt", os.O_RDWR, 0600)
 	if err != nil {
 		fmt.Println("Open err:", err)
