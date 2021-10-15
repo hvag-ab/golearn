@@ -1,0 +1,45 @@
+golang的下载与安装
+
+
+Go语言中文网下载：https://studygolang.com/dl 找到符合系统的版本下载
+
+也可以点击这个链接直接下载：https://dl.google.com/go/go1.10.3.windows-amd64.msi
+
+下载完了直接安装就可以了
+
+安装成功在cmd上查看版本
+$go version
+# 查看go环境变量
+$ go env
+
+设置代理 否则下载包很卡
+$ go env -w GO111MODULE=on
+$ go env -w GOPROXY=https://goproxy.io,direct
+
+# 通过GOPRIVATE控制私有库不走代理。
+$ go env -w GOPRIVATE=*.gitlab.com,*.gitee.com
+
+# 用于验证包的有效性，可以通过如下命令关闭：默认使用的网站打不开
+$ go env -w GOSUMDB=off
+
+#可以设置 GOSUMDB="sum.golang.google.cn"， 这个是专门为国内提供的sum 验证服务。
+$ go env -w GOSUMDB="sum.golang.google.cn"
+
+
+# 编译文件
+# 在main 文件中 编译
+go build .
+
+# windows下编译二进制文件 默认编译成exe
+//项目文件内打开cmd终端依次输入
+set GOARCH=amd64
+set GOOS=linux
+go build .
+
+//将文件上传到linux依次执行
+chmod 777 文件名
+./文件名
+
+
+
+
