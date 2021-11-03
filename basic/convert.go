@@ -90,6 +90,10 @@ func IntToInt64(i int) int64 {
 	return int64(i)
 }
 
+func IntTofloat64(i int) float64 {
+	return float64(i)
+}
+
 /**
 int32 转换
 */
