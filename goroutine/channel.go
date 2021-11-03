@@ -492,3 +492,24 @@ func main67() {
     }
  
 }
+
+// 限制协程个数
+func mainx9() {
+	start := time.Now()
+	ch := make(chan int, 2)
+	var wg sync.WaitGroup
+	
+	for i := 0; i <= 10; i++ {
+		ch <- 1
+		wg.Add(1)
+		go worker(ch, &wg)
+	}
+	wg.Wait()
+}
+
+// 模拟耗时操作
+func worker(ch chan int, wg *sync.WaitGroup) {
+	time.Sleep(time.Second)
+	i:= <-ch
+	fmt.Println("worker", i)
+	wg.Done()
