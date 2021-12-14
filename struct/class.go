@@ -69,7 +69,7 @@ func Check(animal IAnimal) {
 
 
 
-
+// 初始化结构体
 type human struct {
 	name  string
 	age   int
@@ -96,10 +96,21 @@ func stu() {
 	hvag := student{human{name: "hvag", age: 20, phone: "110"}, "119"}
 	fmt.Println("hvag phone uumber is ", hvag.phone) //119
 	hvag.walk()
+	
+	// 第二种初始化
+	hvag := student{}
+	hvag.name= "hvag"
+	user.age=20
+
 
 	hv := student2{human{name: "hvag2", age: 30, phone: "130"}, "129"}
 	fmt.Println("hvag phone uumber is ", hv.phone,hv.hu)
 	hv.hu.walk()
+	// 第二种初始化
+	hvag2 := student2{}
+	hvag2.hu.name ="hvag2"
+	hvag2.hu.age = 20
+	hvag2.phone = "123"
 }
 
 
